@@ -27,6 +27,11 @@ export function Header() {
           <nav className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
+
+                <Link to="/" className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Publicados
+                </Link>
+
                 <Link
                   to="/dashboard"
                   className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"

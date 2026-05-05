@@ -10,7 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   error: string | null;
   login: (credentials: LoginCredentials) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
+  register: (data: RegisterData) => Promise<boolean>;
   logout: () => Promise<void>;
   clearError: () => void;
   isAuthenticated: boolean;
@@ -77,25 +77,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   // Registrar
-  const register = async (data: RegisterData): Promise<void> => {
-    setIsLoading(true);
-    
-    try {
-      await authService.register(data);
+  const register = async (data: RegisterData): Promise<boolean> => {
+  setIsLoading(true);
+  
+  try {
+    await authService.register(data);
 
-      // Login automático após registrar
-      await login({
-        email: data.email,
-        password: data.password,
-      });
-    } catch (err) {
-      const errorMessage = getErrorMessage(err);
-      setError(errorMessage);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    // Login automático após registrar
+    await login({
+      email: data.email,
+      password: data.password,
+    });
+    return true;
+  } catch (err) {
+    const errorMessage = getErrorMessage(err);
+    setError(errorMessage);
+    return false;
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Fazer logout
   const logout = async () => {

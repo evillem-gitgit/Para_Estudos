@@ -2,6 +2,14 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 
+class UserMinimal(BaseModel):
+    """Info mínima do usuário"""
+    id: int
+    username: str
+    full_name: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
 
 class PostBase(BaseModel):
     """Schema base para Post"""
@@ -37,6 +45,7 @@ class Post(PostBase):
     """Schema de resposta do post"""
     id: int
     author_id: int
+    author: UserMinimal
     created_at: datetime
     
     class Config:

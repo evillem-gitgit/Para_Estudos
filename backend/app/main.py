@@ -9,7 +9,7 @@ app = FastAPI(
     version="1.0.0",
     description="API completa com autenticação JWT, CRUD de usuários e posts",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Configurar CORS

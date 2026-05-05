@@ -15,8 +15,8 @@ export function PostCard({ post, onEdit, onDelete, showActions = false }: PostCa
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <div className="flex justify-between items-start mb-3">
-        <div className="flex-1">
-          <h3 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h3>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 truncate">{post.title}</h3>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>{formatDate(post.created_at)}</span>
             {post.is_published ? (
@@ -59,7 +59,7 @@ export function PostCard({ post, onEdit, onDelete, showActions = false }: PostCa
         )}
       </div>
 
-      <p className="text-gray-700 leading-relaxed">
+      <p className="text-gray-700 leading-relaxed truncate">
         {truncateText(post.content, 200)}
       </p>
     </Card>

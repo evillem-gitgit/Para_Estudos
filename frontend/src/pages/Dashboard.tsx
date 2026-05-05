@@ -74,7 +74,7 @@ const handleDelete = async (id: number) => {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Olá, {user?.full_name || user?.username}! 👋
           </h1>
-          <p className="text-gray-600">Gerencie seus posts aqui</p>
+          <p className="text-gray-600">Gerencie seus posts aqui!</p>
         </div>
 
         {/* Error Message */}
@@ -117,6 +117,7 @@ const handleDelete = async (id: number) => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             showActions={true}
+            filterByCurrentUser={true}
             emptyMessage="Você ainda não criou nenhum post. Clique em 'Novo Post' para começar!"
           />
         </div>

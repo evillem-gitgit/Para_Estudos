@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Card } from '../components/common/Card';
@@ -7,16 +7,30 @@ import type { RegisterData } from '../types/auth';
 
 export function Register() {
   const navigate = useNavigate();
-  const { register, error } = useAuth();
+  const { register, clearError } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+
+    // Estado LOCAL para o erro (não depende do AuthContext)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Limpar erro do contexto quando a página monta
+  useEffect(() => {
+    clearError();
+  }, []);
 
   const handleRegister = async (data: RegisterData) => {
     setIsLoading(true);
     try {
+      setErrorMessage(null);
       const success = await register(data);
       if (success) {
         navigate('/dashboard');
       }
+    } catch (err: any) {
+      const message = err?.response?.data?.detail || 
+                      err?.message || 
+                      'Erro ao criar conta';
+      setErrorMessage(message);
     } finally {
       setIsLoading(false);
     }
@@ -36,7 +50,10 @@ export function Register() {
         </div>
 
         <Card>
-          <RegisterForm onSubmit={handleRegister} error={error} isLoading={isLoading} />
+          <RegisterForm
+          onSubmit={handleRegister} 
+          error={errorMessage} 
+          isLoading={isLoading} />
         </Card>
       </div>
     </div>

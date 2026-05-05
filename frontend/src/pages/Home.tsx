@@ -1,11 +1,9 @@
 import { Loader } from 'lucide-react';
-import { useAuth } from '../hooks/useAuth';
 import { usePosts } from '../hooks/usePosts';
 import { PostList } from '../components/features/posts/PostList';
 
 
 export function Home() {
-  const { user } = useAuth();
   const { posts, isLoading } = usePosts();
   
   
@@ -29,8 +27,7 @@ export function Home() {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Posts Publicados</h2>
           <PostList
             posts={posts}
-            showActions={true}
-            emptyMessage="Você ainda não criou nenhum post. Clique em 'Novo Post' para começar!"
+            emptyMessage="Você ainda não criou nenhum post. Clique em 'Novo Post' no Dashboard para começar!"
           />
         </div>
       </div>
