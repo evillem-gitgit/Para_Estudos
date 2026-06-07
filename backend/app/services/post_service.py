@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from fastapi import HTTPException, status
 from typing import List, Optional
 from app.models.post import Post
@@ -32,7 +32,9 @@ class PostService:
             limit: Limite de posts a retornar
             published_only: Se True, retorna apenas posts publicados
         """
-        query = db.query(Post)
+        query = db.query(Post).options(
+            joinedload(Post.author)
+        )
         
         if published_only:
             query = query.filter(Post.is_published == True)
@@ -47,7 +49,9 @@ class PostService:
         limit: int = 100
     ) -> List[Post]:
         """Lista posts de um usuário específico."""
-        return db.query(Post).filter(
+        return db.query(Post).options(
+            joinedload(Post.author)
+        ).filter(
             Post.author_id == user_id
         ).offset(skip).limit(limit).all()
     

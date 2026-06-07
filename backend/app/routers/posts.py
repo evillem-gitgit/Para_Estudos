@@ -10,7 +10,7 @@ from app.models.user import User as UserModel
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
 
-@router.get("/", response_model=List[Post])
+@router.get("", response_model=List[Post])
 def read_posts(
     skip: int = 0,
     limit: int = 100,
@@ -31,21 +31,6 @@ def read_posts(
     return posts
 
 
-@router.get("/{post_id}", response_model=Post)
-def read_post(
-    post_id: int,
-    db: Session = Depends(get_db)
-):
-    """
-    Obter um post específico por ID.
-    """
-    post = PostService.get_post_by_id(db, post_id)
-    if not post:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Post not found"
-        )
-    return post
 
 
 @router.get("/user/{user_id}", response_model=List[Post])
@@ -67,7 +52,24 @@ def read_user_posts(
     return posts
 
 
-@router.post("/", response_model=Post, status_code=status.HTTP_201_CREATED)
+@router.get("/{post_id}", response_model=Post)
+def read_post(
+    post_id: int,
+    db: Session = Depends(get_db)
+):
+    """
+    Obter um post específico por ID.
+    """
+    post = PostService.get_post_by_id(db, post_id)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    return post
+
+
+@router.post("", response_model=Post, status_code=status.HTTP_201_CREATED)
 def create_post(
     post_data: PostCreate,
     db: Session = Depends(get_db),
